@@ -1,0 +1,14 @@
+{
+  "name": "manuelcattelan",
+  "description": "Software engineering skills for agentic workflows.",
+  "owner": {
+    "name": "Manuel Cattelan"
+  },
+  "plugins": [
+    {
+      "name": "skills",
+      "source": "./",
+      "description": "Software engineering skills for agentic workflows."
+    }
+  ]
+}
