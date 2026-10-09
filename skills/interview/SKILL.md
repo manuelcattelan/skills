@@ -6,7 +6,7 @@ description: Interviews the user relentlessly about a plan, design, decision, or
 Interview the user relentlessly about the subject they bring, until you reach a shared understanding of it. Map the subject as a **design tree**: each decision is a node, and every decision that depends on its answer branches off it.
 
 - Work the tree in **rounds**, each asking the whole **frontier**: every open decision whose prerequisites are all settled, so no question in it depends on an answer the user hasn't given yet. A decision whose options, wording or consequences change with the answer to another open decision waits for a later round. Before presenting a round, check every pair of questions in it: when one answer could change what the other asks, keep the first and move the second to a later round. When two questions overlap, merge them into one.
-- Each question puts exactly one decision to the user: one answer settles all of it, and no part of it could be answered differently from the rest. When a question would cover two choices the user could answer differently, such as "add tests" and "bump the version", ask them as two questions.
+- Each question puts exactly one decision to the user: one answer settles all of it, and no part of it could be answered differently from the rest. When a question would cover two choices the user could answer differently, ask them as two questions.
 - Number each question continuing the count from earlier rounds and always recommend an answer, then wait for the user's answers before starting the following round.
 
 Format every round exactly like this:
