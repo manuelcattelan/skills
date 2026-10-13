@@ -1,11 +1,11 @@
 ---
 name: interview
-description: Interviews the user relentlessly about a plan, design, decision, or idea, one round of questions at a time. Use whenever the user wants to stress-test their thinking.
+description: Interviews the user relentlessly about a plan, design, decision, or idea, one round of questions at a time, until both share an understanding of it. Use whenever the user wants to stress-test their thinking, for example when they ask to be grilled or interviewed, to poke holes in a plan, or what they are missing before they build or commit to something.
 ---
 
 Interview the user relentlessly about the subject they bring, until you reach a shared understanding of it. Map the subject as a **design tree**: each decision is a node, and every decision that depends on its answer branches off it.
 
-- Work the tree in **rounds**, each asking the whole **frontier**: every open decision whose prerequisites are all settled, so no question in it depends on an answer the user hasn't given yet. A decision whose options, wording or consequences change with the answer to another open decision waits for a later round. Before presenting a round, check every pair of questions in it: when one answer could change what the other asks, keep the first and move the second to a later round. When two questions overlap, merge them into one.
+- Work the tree in **rounds**, each asking the whole **frontier**: every open decision whose prerequisites are all settled. A decision waits for a later round when the answer to another open decision could change its options, its wording or your recommendation. Before presenting a round, check every pair of questions in it and move the dependent one to a later round; when two questions overlap, merge them. Recompute the frontier before each round.
 - Each question puts exactly one decision to the user: one answer settles all of it, and no part of it could be answered differently from the rest. When a question would cover two choices the user could answer differently, ask them as two questions.
 - Number each question continuing the count from earlier rounds and always recommend an answer, then wait for the user's answers before starting the following round.
 
@@ -13,19 +13,20 @@ Format every round exactly like this:
 ```
 ## Round <N> · <questions in this round> questions · <decisions settled so far> settled · ~<rounds left> rounds left (estimate)
 
-🔎 **Q<n>** - **<question title>**: <the question, with the context and options needed to answer it, in as many paragraphs as it takes>
+🔎 **Q<n>** - **<question title>**: <the context and options needed to answer it, in as many paragraphs as it takes, ending with the question itself>
 
 📝 <your recommendation>
 
 ---
 
-🔎 **Q<n+1>** - **<question title>**: <the question, with the context and options needed to answer it, in as many paragraphs as it takes>
+🔎 **Q<n+1>** - **<question title>**: <the context and options needed to answer it, in as many paragraphs as it takes, ending with the question itself>
 
 📝 <your recommendation>
 ```
 
 - Count the rounds left after this one as the longest chain of decisions you can already see waiting on open ones. Answers keep growing the tree, so the count is only ever an estimate.
 - Phrase every question so that a plain agreement, such as "yes", "ok" or "agreed", accepts your recommendation; when it lists options, recommend one by name (e.g. "Go with B").
+- Commit every recommendation to one answer. When it hinges on something only the user knows, assume the likeliest case and say so, so the user can correct you.
 - Whenever you mention another question by number, anywhere in the session, make the reference stand on its own, in one of these forms:
 
   ```
@@ -33,14 +34,12 @@ Format every round exactly like this:
   Q<n> (<what it asked>: open, <your recommendation>)
   ```
 
-  Spell out the answer itself, never just "yes", so the user can follow the reference without scrolling back.
-
-Every answer reshapes the tree: settled decisions push the frontier outward and unblock the decisions that depend on them. Recompute the frontier before each round.
+  Spell out the answer itself, never just "yes" or an option letter, so the user can follow the reference without scrolling back.
 
 - A question the user leaves unanswered or answers only in part is still on the frontier: carry it into the following round under its original number, ahead of the new questions, marked after its title:
 
   ```
-  🔎 **Q<n>** - **<question title>** _(carried over)_: <the question, with the context and options needed to answer it, in as many paragraphs as it takes>
+  🔎 **Q<n>** - **<question title>** _(carried over)_: <the context and options needed to answer it, in as many paragraphs as it takes, ending with the question itself>
   ```
 
   For a partly answered question, state what is already settled and ask only what remains. A question the user explicitly sets aside is settled as set aside and does not come back.
