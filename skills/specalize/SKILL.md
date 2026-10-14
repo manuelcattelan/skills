@@ -8,7 +8,8 @@ Turn what this session decided into a **spec**: an issue in the project's issue 
 
 1. Explore the repository to understand the current state of the codebase if you haven't already and use the project's domain vocabulary from its `GLOSSARY.md` files throughout the spec.
 2. Give each decision its reasoning: the reason the user gave, or the reasoning of the recommendation they accepted. Record the implementation decisions the thread made too, but leave out file paths, code snippets, and other references to the codebase unless the decision itself is about one.
-3. Write the spec following the template below, leaving out any section with nothing to put in it, then publish it to the project's issue tracker.
+3. Record the **seams** the work will be tested at: the places where you can alter behavior without editing in that place, where a module's interface lives and tests observe its behavior without reaching inside. Prefer existing seams to new ones and the highest seam possible, and keep them as few as possible.
+4. Write the spec following the template below, leaving out any section with nothing to put in it, then publish it to the project's issue tracker.
 
 ```md
 # <what is being built, in the glossary's terms>
