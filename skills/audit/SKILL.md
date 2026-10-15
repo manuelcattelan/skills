@@ -11,7 +11,9 @@ Audit the changes that implement a **spec** and its **tickets**, and report what
 
 Identify the originating spec: issue references in the commit messages, fetched from the project's issue tracker, or the issue passed as an argument. Read their full body and comments, then those of each of its tickets, the spec's sub-issues.
 
-The **change** is everything on the current branch since it forked from the default branch, uncommitted work included: the diff between the merge-base of the two and the working tree. Get the merge-base and the diff with two separate commands. Run every shell command on its own, without `$(…)` substitutions, chains, or pipes, and search and read files with the Glob, Grep, and Read tools rather than the shell: those constructs need approval in most permission setups, and an unattended run has nobody to give it. Tell each subagent the same.
+The **change** is everything on the current branch since it forked from the default branch, uncommitted work included: the diff between the merge-base of the two and the working tree.
+
+Get the merge-base and the diff with two separate commands. Run every shell command on its own, without `$(…)` substitutions or other constructs that would need approval in most permission setups, since this skill's run has nobody to give it.
 
 ## Axes
 
@@ -19,8 +21,8 @@ Audit the change along three **axes**, each in its own general-purpose subagent,
 
 Subagents don't see this conversation, so give each one a self-contained brief with guidance on:
 - how and where to read the spec and its tickets.
-- the command that prints the change, with the merge-base written out.
 - how to report findings (see the paragraph and section below).
+- the command that prints the change, with the merge-base written out.
 - its axis section below.
 
 Each axis reports every issue it finds as a **finding**: the `file:line` it concerns, the evidence it rests on, quoted verbatim, and what is wrong with the current implementation. Each axis reports only what its own section defines, since the other axes cover the rest.
