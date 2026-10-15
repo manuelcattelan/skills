@@ -11,7 +11,7 @@ Audit the changes that implement a **spec** and its **tickets**, and report what
 
 Identify the originating spec: issue references in the commit messages, fetched from the project's issue tracker, or the issue passed as an argument. Read their full body and comments, then those of each of its tickets, the spec's sub-issues.
 
-The **change** is everything on the current branch since it forked from the default branch, uncommitted work included: the diff between the merge-base of the two and the working tree. Get the merge-base and the diff with two separate commands, and tell subagents to read files with Read and Grep: a `$(…)` substitution or a chained shell command needs approval nobody is there to give.
+The **change** is everything on the current branch since it forked from the default branch, uncommitted work included: the diff between the merge-base of the two and the working tree. Get the merge-base and the diff with two separate commands. Run every shell command on its own, without `$(…)` substitutions, chains, or pipes, and search and read files with the Glob, Grep, and Read tools rather than the shell: those constructs need approval in most permission setups, and an unattended run has nobody to give it. Tell each subagent the same.
 
 ## Axes
 
@@ -19,6 +19,7 @@ Audit the change along three **axes**, each in its own general-purpose subagent,
 
 Subagents don't see this conversation, so give each one a self-contained brief with guidance on:
 - how and where to read the spec and its tickets.
+- the command that prints the change, with the merge-base written out.
 - how to report findings (see the paragraph and section below).
 - its axis section below.
 
@@ -40,6 +41,6 @@ Report every place where the code the change adds or modifies could be simpler o
 
 ## Report
 
-Before reporting, open each finding's cited location and quoted source yourself, and drop the finding if they don't say what it claims, stating how many you dropped.
+Before reporting, open each finding's cited location and quoted source yourself, and drop the finding if either doesn't exist or doesn't say what the finding claims. Drop findings for nothing else, not even for seeming minor, and keep the rest under the axis that reported them, as that axis worded them, adding none of your own. State how many you dropped.
 
 Present the reports under `## Faithfulness`, `## Conventions`, and `## Refactoring` headings. Keep the axes apart: never merge, deduplicate, or rank findings across them, since a change can pass one axis and fail another, and a single list would let one hide the other.
