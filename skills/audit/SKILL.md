@@ -43,6 +43,6 @@ Report every place where the code the change adds or modifies could be simpler o
 
 ## Report
 
-Before reporting, open each finding's cited location and quoted source yourself, and drop the finding if either doesn't exist or doesn't say what the finding claims. Drop findings for nothing else, not even for seeming minor, and keep the rest under the axis that reported them, as that axis worded them, adding none of your own. State how many you dropped.
+Before reporting, check that each finding's evidence holds, and drop the findings whose evidence doesn't, stating how many you dropped. Change nothing else about the findings: drop none for any other reason, and keep each under its axis, as worded.
 
 Present the reports under `## Faithfulness`, `## Conventions`, and `## Refactoring` headings. Keep the axes apart: never merge, deduplicate, or rank findings across them, since a change can pass one axis and fail another, and a single list would let one hide the other.
