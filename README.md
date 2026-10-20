@@ -25,9 +25,18 @@ claude plugin install skills --marketplace /path/to/skills
 
 ### Main workflow
 
-- **`/interview`**: interviews you about a plan, design, or idea, one round of questions at a time, each with a recommended answer, until you share an understanding of it. Its decisions are what the rest of the workflow builds from. It is also useful on its own, whenever you want your thinking stress-tested.
-- **`/specalize`**: turns the decisions made in the session into a spec published to the project's issue tracker, written so that later agent sessions can build from it without seeing the conversation. It records only what was decided: it asks nothing and decides nothing.
+#### 1. Design
+
+- **`/interview`**: for an effort one session can hold. It interviews you about a plan, design, or idea, one round of questions at a time, each with a recommended answer, until you share an understanding of it. Its decisions are what the rest of the workflow builds from. It is also useful on its own, whenever you want your thinking stress-tested.
+- **`/scout`**: for an effort too large for one session, such as a large refactor or a feature you only know at a high level. It draws a **map** on the project's issue tracker: one issue whose sub-issues are **trails**, each a domain or angle of the effort. Each later `/scout` session follows one trail, interviewing you about it, while research trails run on their own in the background. The map grows as answers make new questions clear, until nothing is left to decide.
+
+#### 2. Requirements
+
+- **`/specalize`**: turns the decisions into a spec published to the project's issue tracker, written so that later agent sessions can build from it without seeing the conversation. Run it at the end of an `/interview` session, or as `/specalize <map>` once a map has no open trails left. It records only what was decided: it asks nothing and decides nothing.
 - **`/ticketize`**: breaks a spec into tickets that fresh agent sessions can implement without seeing the conversation. Each ticket is a tracer bullet, a narrow but complete path through every layer the change touches, and lists the tickets blocking it. Once you approve the split, `/ticketize` publishes them as sub-issues of the spec.
+
+#### 3. Implementation
+
 - **`/implement`**: implements a spec and all its tickets in one autonomous run. Subagents build each ticket test-first in its own worktree, as soon as its blockers land on a single integration branch. Once every ticket has landed, `/implement` runs `/audit`, has the findings fixed, and closes the spec and its tickets through one pull request.
 - **`/audit`**: audits a branch against its spec and tickets in a fresh context, along three axes: faithfulness to the spec, conformity with the project's conventions, and refactoring opportunities. `/implement` runs it once every ticket has landed, before the pull request goes up for review, but you can also run it on any branch that implements a spec.
 
