@@ -44,7 +44,7 @@ Revise it and present it again after every change, and publish nothing until the
 
 First, move every open question the user answered from the spec's `Open questions` to its `Decisions`, with the user's reasoning. Change the spec in no other way.
 
-Then publish the tickets blockers first, creating each one already linked: a sub-issue of the spec, blocked by its blockers, with the tracker's native relationships set in the same call that creates it whenever the tracker allows it.
+Then publish the tickets blockers first, creating each one already linked and labelled: a sub-issue of the spec, blocked by its blockers, labelled `spec:ticket`, with the tracker's native relationships set in the same call that creates it whenever the tracker allows it. Create the label first when it is missing.
 
 When the tracker has no native sub-issues or blocking relationships, use the `Parent` and `Blocked by` sections of the template instead. Leave out any other section with nothing to put in it.
 
