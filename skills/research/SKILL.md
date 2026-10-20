@@ -21,7 +21,7 @@ Until a claim's verdict is back, don't build on it. Work that doesn't depend on 
 
 ## Report
 
-Once every subagent has returned, merge their results into a single report in the conversation, in this format every time. Leave out empty sections.
+Once every subagent has returned, merge their results into a single report, have it checked following [Review](#review), then present it in the conversation, in this format every time. Leave out empty sections.
 
 ```md
 ### Contradicted
@@ -41,6 +41,14 @@ Once every subagent has returned, merge their results into a single report in th
 ```
 
 Back every entry outside `Unverified` with a link and a quote copied word for word from the source, never a paraphrase, and leave out any finding you can't back that way. Mention a version only when the best source for a claim covers a different version than the one the project uses. Add a finding to `Also relevant` only when it changes a design or implementation decision, even though none of your claims asked about it.
+
+## Review
+
+Subagents can misquote a source, cite a page that doesn't say what they claim, or stretch a finding beyond what the source supports. Before presenting the report, start one review subagent with the merged report, the claims, and the project's context.
+
+For every entry outside `Unverified`, the reviewer follows each claim's reference and checks that the source really says what the claim states and that the claim reports it faithfully, neither stretching nor narrowing its meaning.
+
+Correct each entry that fails when what the reviewer found settles it, and move it to `Unverified` otherwise, saying what failed. Review the report once: don't send the corrected report back for another review.
 
 ## After the report
 
