@@ -32,7 +32,7 @@ Each axis reports every issue it finds as a **finding**: the `file:line` it conc
 The change is faithful when it implements every decision and acceptance criterion of the spec and its tickets as stated, and builds nothing they don't ask for or that the spec puts out of scope. Report every way the change falls short of that, quoting the spec or ticket section that shows it.
 
 When the spec has a `## Glossary` section, the change is also faithful to it when:
-- every glossary file the section lists reads exactly as its items say, entries under `## Deprecated` included, and each entry the section moves is gone from the glossary it leaves.
+- every glossary file the section lists reads exactly as its items say, entries under `## Deprecated` included, each entry the section moves is gone from the glossary it leaves, and each entry it removes is gone from its glossary.
 - the code and documentation it adds or modifies, outside the glossaries, name each concept the section adds, edits, or renames by its term, never by a word on that entry's `Avoid` line.
 - the code and documentation it adds or modifies never use a term the section deprecates.
 
