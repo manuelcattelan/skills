@@ -21,7 +21,7 @@ claude plugin install skills --marketplace /path/to/skills
 
 ### Preliminary step
 
-- **`/define`**: fixes the project's vocabulary. It interviews you about the project's concepts, settles one term and one precise definition for each, and records them in `GLOSSARY.md` files that the other skills use when they write specs and tickets. Run it before the main workflow, and again whenever a concept is named with a vague or overloaded word. `/specalize` also runs it on just the concepts each spec adds, changes, renames, or retires, so the glossary changes land with the code they describe.
+- **`/define`**: fixes the project's vocabulary. It interviews you about the project's concepts, settles one term and one precise definition for each, and records them in `GLOSSARY.md` files that the other skills use when they write specs and tickets. Run it before the main workflow, and again whenever a concept is named with a vague or overloaded word. `/specalize` also runs it on just the concepts each spec adds, changes, renames, or retires, so the glossary changes land with the code they describe. Run `/define review` from time to time, or `/define review <glossary or directory>` for a single area, to check the glossaries against the code: it raises entries that are stale, missing, overlapping, or vague, and settles each with you. It changes nothing itself: run `/specalize` in the same session to turn the agreed changes into a spec. It only decides whether the glossary is right; code and docs that don't follow it are left to `/review`'s glossary checks, run once the glossary changes land.
 
 ### Main workflow
 
@@ -32,7 +32,7 @@ claude plugin install skills --marketplace /path/to/skills
 
 #### 2. Requirements
 
-- **`/specalize`**: turns the decisions into a spec published to the project's issue tracker, written so that later agent sessions can build from it without seeing the conversation. Run it at the end of an `/interview` session, or as `/specalize <map>` once a map has no open trails left. Before drafting, it settles with you, through `/define`, the glossary changes the decisions require, and records them in the spec. Apart from those, it records only what was decided: it asks nothing and decides nothing.
+- **`/specalize`**: turns the decisions into a spec published to the project's issue tracker, written so that later agent sessions can build from it without seeing the conversation. Run it at the end of an `/interview` or `/define review` session, or as `/specalize <map>` once a map has no open trails left. Before drafting, it settles with you, through `/define`, the glossary changes the decisions require, and records them in the spec. Apart from those, it records only what was decided: it asks nothing and decides nothing.
 - **`/ticketize`**: breaks a spec into tickets that fresh agent sessions can implement without seeing the conversation. Each ticket is a tracer bullet, a narrow but complete path through every layer the change touches, and lists the tickets blocking it. When the spec changes the glossary, a dedicated ticket applies those changes first, blocking the tickets that use the new terms. Once you approve the split, `/ticketize` publishes them as sub-issues of the spec.
 
 #### 3. Implementation
