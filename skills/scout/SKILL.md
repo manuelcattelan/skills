@@ -68,6 +68,8 @@ A trail is **claimed** when it's assigned, which happens before any work on it s
    - **<decision>**: <its reasoning, including the facts it rests on>
    ```
 
+   When the map was drawn from an `/upkeep` report, also record every finding the trail dismissed for a lasting reason as a closed issue labelled `upkeep:dismissed`, stating the finding and the reason, creating the label when it is missing.
+
 5. Update the originating map with what the session finds:
    - Route every question set aside or left outside the trail to an open, unclaimed trail on the same domain or angle, otherwise to a new trail blocked by what it waits on, otherwise to the fog when it can't be stated precisely.
    - Turn the fog that the resolution made precise into trails, and remove it from `Not yet specified`. Close a trail that now sits beyond the destination by adding it to `Out of scope`. Rewrite or close a trail that the resolution made obsolete.

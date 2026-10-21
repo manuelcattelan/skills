@@ -70,21 +70,21 @@ A person who holds a ticket without having bought it.
 - **Deprecated**: retired by [#42 Merge ticket holders into attendees](<spec link>); replaced by [Attendee](#attendee).
 ```
 
-The `; replaced by …` part is left out when nothing replaces the concept. Only a spec retires a concept: never move an entry to `## Deprecated` in a session of your own.
+The `; replaced by …` part is left out when nothing replaces the concept. Once nothing in the code or documentation uses a deprecated term anymore, a spec can remove its entry; when the entry names a replacement, the term then goes on the replacement's `Avoid` line, so that agents keep avoiding it. Only a spec retires a concept or removes its entry: never move an entry to `## Deprecated`, or remove one from it, in a session of your own.
 
 ## Glossary diffs
 
-When `specalize` hands you a **glossary diff**, the glossary changes a spec's decisions require, put to the user only its items and the entries whose definition, lines, or links name a term it renames, moves, or deprecates. Once the user confirms the shared understanding, write nothing, not even the block in [Writing](#writing): return every agreed change to `specalize` as an item of its spec's `## Glossary` section, since the implementation writes them alongside the code they describe.
+When `specalize` hands you a **glossary diff**, the glossary changes a spec's decisions require, put to the user only its items and the entries whose definition, lines, or links name a term it renames, moves, deprecates, or removes. Once the user confirms the shared understanding, write nothing, not even the block in [Writing](#writing): return every agreed change to `specalize` as an item of its spec's `## Glossary` section, since the implementation writes them alongside the code they describe.
 
-Items the user already agreed to earlier in the session, such as in a [review](#review), are settled: return them without asking again, unless you find one plainly wrong, which you raise as a question of its own.
+Items the user already agreed to earlier in the session, such as in a [review](#review) or an `/upkeep` session, are settled: return them without asking again, unless you find one plainly wrong, which you raise as a question of its own.
 
 ## Review
 
 A **review** checks the glossaries against the code to catch entries gone stale: the main workflow only changes the concepts each effort names, so the rest drift unnoticed. It decides only whether the glossaries are right, and reads code and documentation only as evidence.
 
-Whether code and documentation follow the glossaries is one of `/review`'s checks, so leave to it every remaining use of a deprecated term or of a word from an `Avoid` line, and every mismatch where the glossary turns out to be right. A full review of the project needs both, this one first, since `/review` takes the glossaries as its authority.
+Whether code and documentation follow the glossaries is one of `/upkeep`'s checks, so leave to it every remaining use of a deprecated term or of a word from an `Avoid` line, and every mismatch where the glossary turns out to be right. A full review of the project needs both, this one first, since `/upkeep` takes the glossaries as its authority.
 
-Review every glossary, or only the one the argument names after `review`, directly or through a directory it covers. Leave the `## Deprecated` groups alone.
+Review every glossary, or only the one the argument names after `review`, directly or through a directory it covers. Leave the `## Deprecated` groups alone: `/upkeep` checks them.
 
 Check each glossary against the rules in [Entries](#entries) and [Glossaries](#glossaries), and against the code and documentation for:
 - **Contradicted entries**: an entry whose definition, `Avoid` line, or `Distinct from` line the code or documentation contradicts. Ask the user which side is right, and when it is the glossary, drop the finding: fixing the code is left to `/review`.
@@ -100,16 +100,16 @@ Subagents don't see this conversation, so give each one a self-contained brief w
 
 Before raising a finding, check that its evidence holds, and drop the ones whose evidence doesn't. Then put each finding to the user as one question, whose recommendation shows the change in a fenced markdown block: the entry as it would read, under `## Deprecated` for a deprecation. The evidence stays in the conversation: an entry never cites it.
 
-Once the user confirms the shared understanding, write nothing to the glossaries, not even the changes they agreed to: those land through a spec like any other, so every glossary change is reviewed and audited the same way. Write only the block in [Writing](#writing), without telling the user about uses of `Avoid` words, which `/review` covers.
+Once the user confirms the shared understanding, write nothing to the glossaries, not even the changes they agreed to: those land through a spec like any other, so every glossary change is reviewed and audited the same way. Write only the block in [Writing](#writing), without telling the user about uses of `Avoid` words, which `/upkeep` covers.
 
 When the user agreed to any change, finish by telling them to run `/specalize` in this same session, which records the changes in a spec's `## Glossary` section.
 
 ## Writing
 
-Once the user confirms the shared understanding, write every glossary the session changed. Then add the block below to the `CLAUDE.md` and the `AGENTS.md` at the repository root, for each of the two that exists, replacing any existing `## Glossary` section; when neither exists, ask the user which one to create. Change nothing else: when code or documentation uses a word from an `Avoid` line, tell the user instead of renaming it, since those renames need their own review.
+Once the user confirms the shared understanding, write every glossary the session changed. Then add the block below to the `CLAUDE.md` and the `AGENTS.md` at the repository root, for each of the two that exists, replacing any existing `## Glossary` section; when neither exists, ask the user which one to create. Change nothing else, and don't report uses of `Avoid` words in code or documentation: `/upkeep` covers them.
 
 ```md
 ## Glossary
 
-`GLOSSARY.md` defines this project's vocabulary, and the glossaries listed in its `Glossary tree` section add the terms for their directories. Before you answer a question, explain something, or write code or documentation that involves a project concept, read them, and then use only their terms, even when the user or the code uses another word: when a word is on an entry's `Avoid` line, write that entry's term instead. Never use a term from a `## Deprecated` group in new code or documentation. When its `Deprecated` line names a replacement, use that term instead; when it names none, the concept no longer exists: leave the term out, and don't raise it or any remaining use of it with the user. When a concept you need has no entry, say so instead of coining a term.
+`GLOSSARY.md` defines this project's vocabulary, and the glossaries listed in its `Glossary tree` section add the terms for their directories. Before you answer a question, explain something, or write code or documentation that involves a project concept, read them, and then use only their terms, even when the user or the code uses another word: when a word is on an entry's `Avoid` line, write that entry's term instead. Never use a term from a `## Deprecated` group in new code or documentation. When its `Deprecated` line names a replacement, use that term instead; when it names none, the concept no longer exists: leave the term out, and leave any remaining use of it to `/upkeep` instead of raising it with the user. When a concept you need has no entry, say so instead of coining a term.
 ```

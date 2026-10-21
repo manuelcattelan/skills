@@ -48,6 +48,7 @@ Turn what this session, or the map passed as an argument, decided, into a **spec
   ```md
   <the entry, exactly as it will read under ## Deprecated>
   ```
+- **Remove <term>**: <why nothing needs its deprecated entry anymore>
 
 ## Out of scope
 - <what will not be built>: <why it was left out of this spec>
@@ -56,7 +57,7 @@ Turn what this session, or the map passed as an argument, decided, into a **spec
 - <question>: <why it is still open: unanswered, or set aside by the user>
 ````
 
-Every other entry whose definition, lines, or links name a renamed, moved, or deprecated term gets an `Edit` item of its own. A new context glossary gets a heading of its own, and its line in the root glossary's `Glossary tree` is an `Edit Glossary tree` item under the root glossary. An `Edit` item can also change a glossary's description, written exactly as it will read, or one of its groups, given as its heading and the order of its terms.
+Every other entry whose definition, lines, or links name a renamed, moved, deprecated, or removed term gets an `Edit` item of its own. When a removed entry names a replacement, the replacement's `Edit` item adds the removed term to its `Avoid` line. A new context glossary gets a heading of its own, and its line in the root glossary's `Glossary tree` is an `Edit Glossary tree` item under the root glossary. An `Edit` item can also change a glossary's description, written exactly as it will read, or one of its groups, given as its heading and the order of its terms.
 
 ## Glossary
 
@@ -67,6 +68,7 @@ The spec's **glossary diff** is the set of changes its decisions require to the 
 - **Renames**: concepts the decisions call by a term other than their entry's.
 - **Moves**: concepts the decisions place in another glossary than their entry's.
 - **Deprecations**: concepts the decisions retire from the whole project.
+- **Removals**: deprecated entries the decisions remove from their glossary.
 
 When the diff is empty, leave the `## Glossary` section out of the spec. Otherwise, call the Skill tool with `skills:define` and the diff, and record the changes it returns as the items of the spec's `## Glossary` section.
 
