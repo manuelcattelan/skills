@@ -2,7 +2,6 @@
 name: scout
 description: Plans an effort too large for one interview session, such as a large refactor or a feature known only at a high level, as a map of trails on the project's issue tracker, then follows one trail per session, with the user or with research, until everything a spec needs is decided and specalize can write it from the map.
 disable-model-invocation: true
-argument-hint: "[idea | map [trail]]"
 ---
 
 Plan an effort too large for one `skills:interview` session as a **map**: an issue on the project's issue tracker whose sub-issues are **trails**, each covering one domain or angle of the effort. Scouting decides and never builds.
