@@ -1,6 +1,6 @@
 ---
 name: upkeep
-description: Reviews the whole codebase, or one directory, for any sign of decay in the codebase: duplicated, tangled, or dead code, drift from the project's conventions, test anti-patterns, documentation the code no longer matches, and code or documentation that doesn't follow the glossary, deprecated entries included. Ranks the findings, settles the ones the user picks with them either with interview or scout, then hands the fixes to specalize.
+description: "Reviews the whole codebase, or one directory, for any sign of decay in the codebase: duplicated, tangled, or dead code, drift from the project's conventions, test anti-patterns, documentation the code no longer matches, and code or documentation that doesn't follow the glossary, deprecated entries included. Ranks the findings, settles the ones the user picks with them either with interview or scout, then hands the fixes to specalize."
 disable-model-invocation: true
 ---
 
