@@ -19,9 +19,10 @@ Size each ticket so that a fresh agent can implement and verify it while most of
 
 A ticket's **blockers** are the tickets that must be done before it can start. List only the ones that really gate it.
 
-Two kinds of tickets are not tracer bullets:
+Three kinds of tickets are not tracer bullets:
 - **Prefactoring**: when existing code would make a slice hard to build, restructure it first, without changing behavior, in its own ticket that blocks the slices relying on it.
 - **Wide refactors**: when one mechanical change, like renaming a field everywhere, breaks too much code to land at once, split it into tickets that each keep everything working.
+- **Glossary**: when the spec has a `## Glossary` section, apply it to the `GLOSSARY.md` files in a ticket of its own that blocks every ticket naming a term the section adds, edits, renames, or deprecates. Its acceptance criteria are the section's items, each one reading in its glossary exactly as the spec words it.
 
 Every ticket must be implementable by an agent alone: it names the spec decisions it implements and decides nothing the spec doesn't. When a ticket would need a human, to make a decision or to answer one of the spec's open questions, hold it back and raise it at review. Never answer a question you raise with a default of your own, even one the user could override.
 
