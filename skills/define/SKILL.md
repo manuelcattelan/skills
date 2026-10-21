@@ -58,6 +58,22 @@ A payment reversed by the Customer's bank after the Customer disputes it, withou
 - **Distinct from**: [Refund](#refund): the shop starts a Refund.
 ```
 
+When a spec retires a concept, its entry moves, unchanged, to a `## Deprecated` group at the end of its glossary, ordered alphabetically, with a `Deprecated` line linking the spec and, when another concept replaces it, that concept's entry:
+
+```md
+## Deprecated
+
+### Ticket holder
+A person who holds a ticket without having bought it.
+- **Deprecated**: retired by [#42 Merge ticket holders into attendees](<spec link>); replaced by [Attendee](#attendee).
+```
+
+The `; replaced by …` part is left out when nothing replaces the concept. Only a spec retires a concept: never move an entry to `## Deprecated` in a session of your own.
+
+## Glossary diffs
+
+When `specalize` hands you a **glossary diff**, the glossary changes a spec's decisions require, put to the user only its items and the entries whose definition, lines, or links name a term it renames or deprecates. Once the user confirms the shared understanding, write nothing, not even the block in [Writing](#writing): return every agreed change to `specalize` as an item of its spec's `## Glossary` section, since the implementation writes them alongside the code they describe.
+
 ## Writing
 
 Once the user confirms the shared understanding, write every glossary the session changed. Then add the block below to the `CLAUDE.md` and the `AGENTS.md` at the repository root, for each of the two that exists, replacing any existing `## Glossary` section; when neither exists, ask the user which one to create. Change nothing else: when code or documentation uses a word from an `Avoid` line, tell the user instead of renaming it, since those renames need their own review.
@@ -65,5 +81,5 @@ Once the user confirms the shared understanding, write every glossary the sessio
 ```md
 ## Glossary
 
-`GLOSSARY.md` defines this project's vocabulary, and the glossaries listed in its `Glossary tree` section add the terms for their directories. Before you answer a question, explain something, or write code or documentation that involves a project concept, read them, and then use only their terms, even when the user or the code uses another word: when a word is on an entry's `Avoid` line, write that entry's term instead. When a concept you need has no entry, say so instead of coining a term.
+`GLOSSARY.md` defines this project's vocabulary, and the glossaries listed in its `Glossary tree` section add the terms for their directories. Before you answer a question, explain something, or write code or documentation that involves a project concept, read them, and then use only their terms, even when the user or the code uses another word: when a word is on an entry's `Avoid` line, write that entry's term instead. Never use a term from a `## Deprecated` group in new code or documentation. When its `Deprecated` line names a replacement, use that term instead; when it names none, the concept no longer exists: leave the term out, and don't raise it or any remaining use of it with the user. When a concept you need has no entry, say so instead of coining a term.
 ```

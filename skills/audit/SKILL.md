@@ -31,6 +31,13 @@ Each axis reports every issue it finds as a **finding**: the `file:line` it conc
 
 The change is faithful when it implements every decision and acceptance criterion of the spec and its tickets as stated, and builds nothing they don't ask for or that the spec puts out of scope. Report every way the change falls short of that, quoting the spec or ticket section that shows it.
 
+When the spec has a `## Glossary` section, the change is also faithful to it when:
+- every glossary file the section lists reads exactly as its items say, entries under `## Deprecated` included.
+- the code and documentation it adds or modifies, outside the glossaries, name each concept the section adds, edits, or renames by its term, never by a word on that entry's `Avoid` line.
+- the code and documentation it adds or modifies never use a term the section deprecates.
+
+Report only what the change adds or modifies: uses of a term elsewhere in the codebase are out of the audit's scope.
+
 ### Conventions
 
 Find out how this project expects its code to be written, from wherever it documents it, and report every place where the change departs from that, quoting the rule it breaks. The documentation is always the authority: code drifts away from it, so a change that contradicts a documented rule is a finding even when existing code does the same.
