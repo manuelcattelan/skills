@@ -40,6 +40,10 @@ Turn what this session, or the map passed as an argument, decided, into a **spec
   ```md
   <the entry under its new term, with the old term on its Avoid line>
   ```
+- **Move <term> from `<path to the GLOSSARY.md it leaves>`**: <why the concept belongs in this glossary>
+  ```md
+  <the entry, exactly as it will read here>
+  ```
 - **Deprecate <term>**: <why the effort retires the concept>
   ```md
   <the entry, exactly as it will read under ## Deprecated>
@@ -52,15 +56,16 @@ Turn what this session, or the map passed as an argument, decided, into a **spec
 - <question>: <why it is still open: unanswered, or set aside by the user>
 ````
 
-Every other entry whose definition, lines, or links name a renamed or deprecated term gets an `Edit` item of its own. A new context glossary gets a heading of its own, and its line in the root glossary's `Glossary tree` is an `Edit Glossary tree` item under the root glossary.
+Every other entry whose definition, lines, or links name a renamed, moved, or deprecated term gets an `Edit` item of its own. A new context glossary gets a heading of its own, and its line in the root glossary's `Glossary tree` is an `Edit Glossary tree` item under the root glossary. An `Edit` item can also change a glossary's description, written exactly as it will read, or one of its groups, given as its heading and the order of its terms.
 
 ## Glossary
 
 The spec's **glossary diff** is the set of changes its decisions require to the `GLOSSARY.md` files, for the concepts the decisions name and no others, even when another entry looks stale:
 
 - **Additions**: concepts the decisions name that have no entry.
-- **Edits**: entries the decisions contradict.
+- **Edits**: entries, glossary descriptions, or groups the decisions contradict.
 - **Renames**: concepts the decisions call by a term other than their entry's.
+- **Moves**: concepts the decisions place in another glossary than their entry's.
 - **Deprecations**: concepts the decisions retire from the whole project.
 
 When the diff is empty, leave the `## Glossary` section out of the spec. Otherwise, call the Skill tool with `skills:define` and the diff, and record the changes it returns as the items of the spec's `## Glossary` section.
