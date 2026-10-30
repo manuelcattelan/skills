@@ -90,7 +90,7 @@ Whether code and documentation follow the glossaries is one of `/upkeep`'s check
 Review every glossary, or only the one the argument names after `review`, directly or through a directory it covers. Leave the `## Deprecated` groups alone: `/upkeep` checks them.
 
 Check each glossary against the rules in [Entries](#entries) and [Glossaries](#glossaries), and against the code and documentation for:
-- **Contradicted entries**: an entry whose definition, `Avoid` line, or `Distinct from` line the code or documentation contradicts. Ask the user which side is right, and when it is the glossary, drop the finding: fixing the code is left to `/review`.
+- **Contradicted entries**: an entry whose definition, `Avoid` line, or `Distinct from` line the code or documentation contradicts. Ask the user which side is right, and when it is the glossary, drop the finding: fixing the code is left to `/upkeep`.
 - **Unused concepts**: an entry whose concept nothing in the code or documentation realizes anymore, under its term or any other word. Ask the user whether to deprecate it.
 - **Missing concepts**: a concept that the documentation or more than one area of the code names, that has no entry, and that [Entries](#entries) would give one.
 - **Drifted words**: a word the code or documentation consistently uses for a concept, missing from its entry's `Avoid` line. Recommend adding it there, and renaming the entry only when the project's users or domain experts use that word.
