@@ -1,14 +1,14 @@
 ---
 name: specalize
-description: Turns the decisions made in this session, or along the trails of a map drawn by scout, into a spec, published to the project's issue tracker, that later agent sessions build from without seeing this conversation. Records only what the user already decided; apart from the glossary changes those decisions require, which it settles with the user through define, it asks nothing and decides nothing.
+description: Turns the decisions made in this session, or along the trails of a map drawn by scout, into a spec, published to the project's issue tracker, that later agent sessions build from without seeing this conversation. Records only what the user already decided; apart from the glossary changes and ADRs those decisions require, which it settles with the user through define, it asks nothing and decides nothing.
 disable-model-invocation: true
 ---
 
-Turn what this session, or the map passed as an argument, decided, into a **spec**: an issue in the project's issue tracker that later agent sessions build from without ever seeing this conversation. Don't interview the user yourself and don't make decisions: the spec only records what the user already decided, and anything it states that the user never decided is a defect. The only questions put to the user are the glossary changes the decisions require, and `skills:define` asks them, following [Glossary](#glossary).
+Turn what this session, or the map passed as an argument, decided, into a **spec**: an issue in the project's issue tracker that later agent sessions build from without ever seeing this conversation. Don't interview the user yourself and don't make decisions: the spec only records what the user already decided, and anything it states that the user never decided is a defect. The only questions put to the user are the glossary changes and ADRs the decisions require, and `skills:define` asks them, following [Glossary](#glossary) and [ADRs](#adrs).
 
 1. When given a map, read it following [Maps](#maps).
-2. Explore the repository to understand the current state of the codebase if you haven't already and use the project's domain vocabulary from its `GLOSSARY.md` files throughout the spec.
-3. Before drafting anything, settle the spec's glossary diff following [Glossary](#glossary), and write the rest of the spec in the terms it agrees on.
+2. Explore the repository to understand the current state of the codebase if you haven't already and use the project's domain vocabulary from its `GLOSSARY.md` files throughout the spec, and read the ADRs in `docs/adr/` about the areas it touches.
+3. Before drafting anything, settle the spec's glossary diff and ADR diff following [Glossary](#glossary) and [ADRs](#adrs), and write the rest of the spec in the terms it agrees on.
 4. Give each decision its reasoning: the reason the user gave, or the reasoning of the recommendation they accepted. Record the implementation decisions the thread made too, but leave out file paths, code snippets, and other references to the codebase unless the decision itself is about one. When a prototype settled a decision, link its record from the decision.
 5. Record the **seams** the work will be tested at: the places where you can alter behavior without editing in that place, where a module's interface lives and tests observe its behavior without reaching inside. Prefer existing seams to new ones and the highest seam possible, and keep them as few as possible.
 6. Write the spec following the template below, leaving out any section with nothing to put in it, then publish it to the project's issue tracker labelled `spec`, creating the label when it is missing.
@@ -50,6 +50,20 @@ Turn what this session, or the map passed as an argument, decided, into a **spec
   ```
 - **Remove <term>**: <why nothing needs its deprecated entry anymore>
 
+## Architecture decisions
+- **Add <title>**: <the decision it records>
+  ```md
+  <the ADR, exactly as it will read, without its number>
+  ```
+- **Supersede ADR-<NNNN> <title>**: <the Add item that replaces it>
+  ```md
+  <its Status line, exactly as it will read>
+  ```
+- **Deprecate ADR-<NNNN> <title>**: <why the decision no longer applies>
+  ```md
+  <its Status line, exactly as it will read>
+  ```
+
 ## Out of scope
 - <what will not be built>: <why it was left out of this spec>
 
@@ -70,7 +84,17 @@ The spec's **glossary diff** is the set of changes its decisions require to the 
 - **Deprecations**: concepts the decisions retire from the whole project.
 - **Removals**: deprecated entries the decisions remove from their glossary.
 
-When the diff is empty, leave the `## Glossary` section out of the spec. Otherwise, call the Skill tool with `skills:define` and the diff, and record the changes it returns as the items of the spec's `## Glossary` section.
+When the diff is empty, leave the `## Glossary` section out of the spec. Otherwise, call the Skill tool with `skills:define` and the diff, together with the [ADR diff](#adrs) when there is one, and record the glossary changes it returns as the items of the spec's `## Glossary` section.
+
+## ADRs
+
+The spec's **ADR diff** is the set of changes its decisions require to `docs/adr/`:
+
+- **Additions**: decisions that pass the test in `skills:define`'s ADRs section.
+- **Supersessions**: ADRs in force that the decisions replace, each paired with the addition that records the new decision.
+- **Deprecations**: ADRs in force whose decision no longer applies, with nothing replacing it.
+
+When the diff is empty, leave the `## Architecture decisions` section out of the spec. Otherwise, hand it to `skills:define` in the same call as the glossary diff, and record the changes it returns as the items of that section.
 
 ## Maps
 

@@ -52,7 +52,7 @@ A trail is **claimed** when it's assigned, which happens before any work on it s
 ## Draw the map
 
 1. Run `skills:interview` on the effort, covering only its problem, its destination, and what it leaves out: which areas the spec will cover, never how any of them will work, since settling that is what the trails are for.
-2. Sweep the rest of the effort breadth-first, listing the decisions it needs without settling any of them. If the whole effort fits in one interview session, don't draw a map: stop and offer to continue it as a plain `skills:interview` session.
+2. Sweep the rest of the effort breadth-first, listing the decisions it needs without settling any of them, including every ADR in force it would reopen. If the whole effort fits in one interview session, don't draw a map: stop and offer to continue it as a plain `skills:interview` session.
 3. Draft the map and its trails: present each trail with its title, type, questions and blockers, followed by the fog and what is out of scope. Revise and present the draft again after every change request until the user explicitly approves it: feedback is not approval.
 4. Publish the map, creating any missing `scout:` labels first, then its trails, blockers first, each created as a sub-issue of the map with its blockers already set.
 5. Start the research trails, then finish with the map's link and its frontier.
