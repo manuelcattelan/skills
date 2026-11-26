@@ -17,35 +17,202 @@ To develop and test skills, install from a local clone instead. Edits then load 
 claude plugin install skills --marketplace /path/to/skills
 ```
 
-## Skills
+## The workflow at a glance
 
-### Preliminary step
+![The workflow: the entry points feed the design skills, which hand off to /specalize, then /ticketize, then /implement](assets/workflow.svg)
 
-- **`/define`**: fixes the project's [ubiquitous language](https://martinfowler.com/bliki/UbiquitousLanguage.html), the one vocabulary you, the project's domain experts, the code, and agents all share. It interviews you about the project's concepts, settles one term and one precise definition for each, and records them in `GLOSSARY.md` files that the other skills use when they write specs and tickets. Run it before the main workflow, and again whenever a concept is named with a vague or overloaded word. `/specalize` also runs it on just the concepts each spec adds, changes, renames, or retires, so the glossary changes land with the code they describe. Run `/define review` from time to time, or `/define review <glossary or directory>` for a single area, to check the glossaries against the code: it raises entries that are stale, missing, overlapping, or vague, and settles each with you. It changes nothing itself: run `/specalize` in the same session to turn the agreed changes into a spec. It only decides whether the glossary is right; code and docs that don't follow it are left to `/upkeep`'s glossary checks, run once the glossary changes land. `/define` also records the project's architecture decisions as ADRs in `docs/adr/`: the rare decisions that are hard to reverse, surprising without context, and the result of a real trade-off, so that later agents don't undo them. They land through specs like glossary changes, or directly from a `/define` session for a fix made outside the workflow.
+Follow the main flow from top to bottom: design the effort, turn the decisions into a spec and its tickets, then implement them. Solid arrows hand work off to the next skill, labelled with what they carry; dashed arrows show a skill that runs on its own. [/define](#define) runs before the workflow, and [/specalize](#specalize) runs it again on the concepts each spec touches. [/upkeep](#upkeep) and [/retro](#retro) keep the codebase and the agent's working environment healthy. The agent runs [/research](#research) whenever it designs or writes code that uses a library, framework, API, or tool.
 
-### Main workflow
+## Preliminary step
 
-#### 1. Design
+Settle the project's vocabulary and its hard-to-reverse decisions before the main workflow, and keep them current as the project grows.
 
-- **`/interview`**: for an effort one session can hold. It interviews you about a plan, design, or idea, one round of questions at a time, each with a recommended answer, until you share an understanding of it. Its decisions are what the rest of the workflow builds from. It is also useful on its own, whenever you want your thinking stress-tested.
-- **`/scout`**: for an effort too large for one session, such as a large refactor or a feature you only know at a high level. It draws a **map** on the project's issue tracker: one issue whose sub-issues are **trails**, each a domain or angle of the effort. Each later `/scout` session follows one trail, interviewing you about it, while research trails run on their own in the background. The map grows as answers make new questions clear, until nothing is left to decide.
-- **`/prototype`**: for a design question that talking can't settle, such as a state model whose edge cases you can't hold in your head, or a screen you can't picture until you see a few versions of it. After you confirm the question, a subagent builds a throwaway HTML file outside the repository: either a clickable demo of the logic, with free-play buttons and guided walkthroughs, or a few structurally different UI variants rendered as close to the real app as possible. It revises the file as you react, until you settle the question. The verdict is recorded on the issue tracker, as a closed `prototype:verdict` issue or as the resolution of a `scout` trail, with everything the implementing agents need. `/interview` recommends it when a question calls for it, and `/scout` has prototype trails for it.
+### define
+Fixes the project's [ubiquitous language](https://martinfowler.com/bliki/UbiquitousLanguage.html), the one vocabulary you, the domain experts, the code, and agents all share, and records the architecture decisions later agents must not undo.
 
-#### 2. Requirements
+**Use it when** you start on a project, before the main workflow, or as soon as a concept is named with a vague or overloaded word. Run it again when a decision is hard to reverse, surprising without context, and the result of a real trade-off, and from time to time to check the glossaries and ADRs against the code.
 
-- **`/specalize`**: turns the decisions into a spec published to the project's issue tracker, written so that later agent sessions can build from it without seeing the conversation. Run it at the end of an `/interview`, `/define review`, or `/upkeep` session, or as `/specalize <map>` once a map has no open trails left. Before drafting, it settles with you, through `/define`, the glossary changes and ADRs the decisions require, and records them in the spec. Apart from those, it records only what was decided: it asks nothing and decides nothing.
-- **`/ticketize`**: breaks a spec into tickets that fresh agent sessions can implement without seeing the conversation. Each ticket is a tracer bullet, a narrow but complete path through every layer the change touches, and lists the tickets blocking it. When the spec changes the glossary or the ADRs, a dedicated ticket applies those changes first, blocking the tickets that use the new terms. Once you approve the split, `/ticketize` publishes them as sub-issues of the spec.
+```sh
+/define                     # settle terms and decisions through an interview
+/define review              # review every glossary and the ADRs
+/define review <glossary>   # review only that glossary
+/define review <directory>  # review only the glossary covering that directory
+```
 
-#### 3. Implementation
+**Produces** `GLOSSARY.md` files, one term and one precise definition per concept, and ADRs in `docs/adr/`.
 
-- **`/implement`**: implements a spec and all its tickets in one autonomous run. Subagents build each ticket test-first in its own worktree, as soon as its blockers land on a single integration branch. Once every ticket has landed, `/implement` runs `/audit`, has the findings fixed, and closes the spec and its tickets through one pull request.
-- **`/audit`**: audits a branch against its spec and tickets in a fresh context, along three axes: faithfulness to the spec, its glossary changes and ADRs included, conformity with the project's conventions, and refactoring opportunities. `/implement` runs it once every ticket has landed, before the pull request goes up for review, but you can also run it on any branch that implements a spec.
+**Good to know:** [/specalize](#specalize) runs it on just the concepts each spec adds, changes, renames, or retires, so glossary changes and ADRs land with the code they describe. `review` settles each stale, missing, overlapping, or vague entry with you but changes nothing itself; run [/specalize](#specalize) in the same session to turn the agreed changes into a spec. Code and docs that don't follow the glossary are [/upkeep](#upkeep)'s job.
 
-### Maintenance
+## Main workflow
 
-- **`/upkeep`**: reviews the whole codebase, or the directory you pass it, for any sign of decay in the codebase: duplicated, tangled, or dead code, drift from the project's conventions, tests coupled to the implementation, documentation the code no longer matches, and code or documentation that doesn't follow the glossary, deprecated terms and their entries included, or that contradicts an ADR. It presents the findings ranked by what leaving them would cost, lets you pick the ones to fix, and settles each with you either through `/interview` or, when they are too many for one session, through `/scout`, then hands them to `/specalize`: in the same session after an interview, or as `/specalize <map>` once the map has no open trails left. It changes nothing itself. A full review runs `/define review` first and lands its changes, since `/upkeep` takes the glossary as its authority.
-- **`/retro`**: the counterpart of `/upkeep` for the agent's working environment rather than the codebase. It reviews the current session, or the project's past sessions you describe, such as `/retro last week`, for what made them go worse than they should have: context and tool calls spent for little, skills that misbehaved, requests you keep typing from scratch that deserve a skill, missing or misleading instructions in `CLAUDE.md`, `AGENTS.md`, and rules, mistakes an automated check could have caught, and information the agent struggled to find. It reports each finding with its evidence, ranked by how often it recurs and what it wastes, with a direction for the fix to take into a dedicated session. It changes nothing itself.
+Take an effort from an idea to a merged pull request, in three phases: [Design](#design), [Requirements](#requirements), and [Implementation](#implementation).
 
-### General-purpose
+### Design
 
-- **`/research`**: checks a planned approach against official, high-trust sources before any code is written. It doesn't belong to a single workflow: the agent runs it on its own whenever it is about to write code or propose a design that uses a library, framework, API, or tool, but you can also run it directly for any research question.
+---
+
+#### interview
+Interviews you about a plan, design, or idea, one round of questions at a time, each with a recommended answer, until you share an understanding of it.
+
+**Use it when** the effort is one a single session can hold, or whenever you want your thinking stress-tested, even outside the workflow.
+
+```sh
+/interview                  # interview about the subject discussed in this session
+/interview <subject>        # interview about that subject
+```
+
+**Produces** the decisions the rest of the workflow builds from.
+
+**Good to know:** it recommends [/prototype](#prototype) when a question calls for it. Run [/specalize](#specalize) at the end of the session to turn the decisions into a spec.
+
+---
+
+#### scout
+Draws a map of an effort too large for one session, then follows it one trail at a time until nothing is left to decide.
+
+**Use it when** the effort is a large refactor, or a feature you only know at a high level.
+
+```sh
+/scout                      # ask whether to draw a map or follow a trail
+/scout <effort>             # draw a map of that effort
+/scout <map>                # follow a trail of that map, picked with you
+/scout <trail>              # follow that trail
+```
+
+**Produces** a **map** on the project's issue tracker: one issue whose sub-issues are **trails**, each a domain or angle of the effort.
+
+**Good to know:** each session follows one trail and interviews you about it, while research trails run on their own in the background. The map grows as answers make new questions clear, and prototype trails hand their questions to [/prototype](#prototype). Once no trails are left open, run [/specalize](#specalize) on the map.
+
+---
+
+#### prototype
+Settles a design question by building a throwaway HTML file you can click through, and revising it as you react.
+
+**Use it when** talking can't settle a design question: a state model whose edge cases you can't hold in your head, or a screen you can't picture until you see a few versions of it.
+
+```sh
+/prototype                  # prototype the question raised in this session
+/prototype <question>       # prototype that question
+```
+
+**Produces** either a clickable demo of the logic, with free-play buttons and guided walkthroughs, or a few structurally different UI variants rendered as close to the real app as possible, and a verdict, recorded as a closed `prototype:verdict` issue or as the resolution of a [/scout](#scout) trail.
+
+**Good to know:** it confirms the question with you first, then a subagent builds the file outside the repository and revises it until you settle the question. The verdict records everything the implementing agents need.
+
+### Requirements
+
+---
+
+#### specalize
+Turns the decisions into a spec that later agent sessions can build from without seeing the conversation.
+
+**Use it when** an [/interview](#interview), [/define review](#define), or [/upkeep](#upkeep) session ends with decisions, or a map has no open trails left.
+
+```sh
+/specalize                  # spec the decisions made in this session
+/specalize <map>            # spec the decisions recorded on that map
+```
+
+**Produces** a spec published to the project's issue tracker, glossary changes and ADRs included.
+
+**Good to know:** before drafting, it settles with you, through [/define](#define), the glossary changes and ADRs the decisions require. Apart from those, it records only what was decided: it asks nothing and decides nothing.
+
+---
+
+#### ticketize
+Breaks a spec into tickets that fresh agent sessions can implement without seeing the conversation.
+
+**Use it when** a spec is published and ready to split.
+
+```sh
+/ticketize                  # split the spec published in this session
+/ticketize <spec>           # split that spec
+```
+
+**Produces** tickets published as sub-issues of the spec, once you approve the split.
+
+**Good to know:** each ticket is a **tracer bullet**, a narrow but complete path through every layer the change touches, and lists the tickets blocking it. When the spec changes the glossary or the ADRs, a dedicated ticket applies those changes first, blocking the tickets that use the new terms.
+
+### Implementation
+
+---
+
+#### implement
+Implements a spec and all its tickets in one autonomous run.
+
+**Use it when** a spec's tickets are published.
+
+```sh
+/implement                  # implement the spec published in this session
+/implement <spec>           # implement that spec
+```
+
+**Produces** one pull request that closes the spec and its tickets.
+
+**Good to know:** subagents build each ticket test-first in its own worktree, as soon as its blockers land on a single integration branch. Once every ticket has landed, it runs [/audit](#audit) and has the findings fixed before opening the pull request.
+
+---
+
+#### audit
+Audits a branch against its spec and tickets in a fresh context.
+
+**Use it when** any branch implements a spec, not only one built by [/implement](#implement).
+
+```sh
+/audit                      # audit the branch against the spec its commits reference
+/audit <spec>               # audit the branch against that spec
+```
+
+**Produces** findings with their evidence, along three axes: faithfulness to the spec, its glossary changes and ADRs included, conformity with the project's conventions, and refactoring opportunities.
+
+**Good to know:** [/implement](#implement) runs it once every ticket has landed, before the pull request goes up for review.
+
+## Maintenance
+
+Catch decay early, in the codebase and in the agent's working environment.
+
+### upkeep
+Reviews the codebase for any sign of decay and turns the problems you pick into a spec.
+
+**Use it when** the code shows duplicated, tangled, or dead code, drift from the project's conventions, or tests coupled to the implementation. It also catches documentation the code no longer matches, and code or documentation that doesn't follow the glossary, deprecated terms and their entries included, or that contradicts an ADR.
+
+```sh
+/upkeep                     # review the whole codebase
+/upkeep <directory>         # review only that directory
+```
+
+**Produces** findings ranked by what leaving them would cost, settled with you and handed to [/specalize](#specalize).
+
+**Good to know:** it changes nothing itself. You pick the findings to fix, and it settles them through [/interview](#interview), then [/specalize](#specalize) in the same session, or, when they are too many for one session, through [/scout](#scout), then [/specalize](#specalize) on the map. A full review runs [/define review](#define) first and lands its changes, since it takes the glossary as its authority.
+
+---
+
+### retro
+The counterpart of [/upkeep](#upkeep) for the agent's working environment rather than the codebase: it reviews sessions for what made them go worse than they should have.
+
+**Use it when** context and tool calls were spent for little, a skill misbehaved, or you keep typing a request from scratch that deserves a skill. It also catches missing or misleading instructions in `CLAUDE.md`, `AGENTS.md`, and rules, mistakes an automated check could have caught, and information the agent struggled to find.
+
+```sh
+/retro                      # review the current session
+/retro <sessions>           # review the sessions described, such as last week
+```
+
+**Produces** findings with their evidence, ranked by how often they recur and what they waste, each with a direction for the fix.
+
+**Good to know:** it changes nothing itself, so take each fix into a dedicated session.
+
+## General-purpose
+
+Skills that don't belong to a single workflow.
+
+### research
+Checks a planned approach against official, high-trust sources, for the version the project uses, before any code is written.
+
+**Use it when** you have a research question, or want to know whether an approach is right, current, or idiomatic. The agent also runs it on its own whenever it is about to write code or propose a design that uses a library, framework, API, or tool.
+
+```sh
+/research                   # research the approach planned in this session
+/research <question>        # research that question
+```
+
+**Produces** a report of what the sources say about each claim the approach rests on.
