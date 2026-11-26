@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 548" width="860" height="548" role="img" aria-label="Workflow. /define feeds the glossary and ADRs to design, /upkeep feeds its findings, and /research checks approaches. /interview, /scout and /prototype hand their decisions, map and verdict to /specalize, which hands the spec to /ticketize, which hands the tickets to /implement, which runs /audit. /retro stands apart.">
+  <style>
+    .frame { fill: none; stroke: #d0d7de; stroke-width: 1; }
+    .box { fill: #f6f8fa; stroke: #d0d7de; stroke-width: 1; }
+    .label { fill: #1f2328; font: 600 14px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; text-anchor: middle; }
+    .title { fill: #59636e; font: 600 11px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; text-anchor: end; letter-spacing: 0.06em; text-transform: uppercase; }
+    .note { fill: #59636e; font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+    .edge { fill: none; stroke: #59636e; stroke-width: 1.5; }
+    .dashed { stroke-dasharray: 5 4; }
+    .head { fill: #59636e; }
+    @media (prefers-color-scheme: dark) {
+      .frame { stroke: #3d444d; }
+      .box { fill: #151b23; stroke: #3d444d; }
+      .label { fill: #f0f6fc; }
+      .title, .note { fill: #9198a1; }
+      .edge { stroke: #9198a1; }
+      .head { fill: #9198a1; }
+    }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto">
+      <path class="head" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+  <!-- Frames -->
+  <rect class="frame" x="24" y="10" width="182" height="96" rx="12"/>
+  <text class="title" x="196" y="28">Preliminary step</text>
+  <rect class="frame" x="234" y="10" width="392" height="96" rx="12"/>
+  <text class="title" x="616" y="28">Maintenance</text>
+  <rect class="frame" x="654" y="10" width="182" height="96" rx="12"/>
+  <text class="title" x="826" y="28">General-purpose</text>
+  <rect class="frame" x="24" y="150" width="602" height="96" rx="12"/>
+  <text class="title" x="616" y="168">Design</text>
+  <rect class="frame" x="234" y="300" width="392" height="96" rx="12"/>
+  <text class="title" x="616" y="318">Requirements</text>
+  <rect class="frame" x="444" y="440" width="392" height="96" rx="12"/>
+  <text class="title" x="826" y="458">Implementation</text>
+
+  <!-- Edges: solid hands work off, dashed runs on its own -->
+  <line class="edge" x1="115" y1="90" x2="115" y2="150" marker-end="url(#arrow)"/>
+  <text class="note" x="123" y="124" text-anchor="start">glossary &amp; ADRs</text>
+  <line class="edge" x1="325" y1="90" x2="325" y2="150" marker-end="url(#arrow)"/>
+  <text class="note" x="333" y="124" text-anchor="start">findings</text>
+  <path class="edge dashed" d="M745,90.0 V208 H626.0" marker-end="url(#arrow)"/>
+  <text class="note" x="685.5" y="200" text-anchor="middle">checks approaches</text>
+  <line class="edge" x1="115" y1="230" x2="115" y2="280"/>
+  <text class="note" x="123" y="270" text-anchor="start">decisions</text>
+  <line class="edge" x1="535" y1="230" x2="535" y2="280"/>
+  <text class="note" x="543" y="270" text-anchor="start">verdict</text>
+  <line class="edge" x1="115" y1="280" x2="535" y2="280"/>
+  <line class="edge" x1="325" y1="230" x2="325" y2="336" marker-end="url(#arrow)"/>
+  <text class="note" x="333" y="270" text-anchor="start">map</text>
+  <line class="edge" x1="400" y1="358" x2="460" y2="358" marker-end="url(#arrow)"/>
+  <text class="note" x="430" y="350" text-anchor="middle">spec</text>
+  <line class="edge" x1="535" y1="380" x2="535" y2="476" marker-end="url(#arrow)"/>
+  <text class="note" x="543" y="422" text-anchor="start">tickets</text>
+  <line class="edge dashed" x1="610" y1="498" x2="670" y2="498" marker-end="url(#arrow)"/>
+  <text class="note" x="640" y="490" text-anchor="middle">runs</text>
+
+  <!-- Skills -->
+  <rect class="box" x="40" y="46" width="150" height="44" rx="8"/>
+  <text class="label" x="115" y="73">/define</text>
+  <rect class="box" x="250" y="46" width="150" height="44" rx="8"/>
+  <text class="label" x="325" y="73">/upkeep</text>
+  <rect class="box" x="460" y="46" width="150" height="44" rx="8"/>
+  <text class="label" x="535" y="73">/retro</text>
+  <rect class="box" x="670" y="46" width="150" height="44" rx="8"/>
+  <text class="label" x="745" y="73">/research</text>
+  <rect class="box" x="40" y="186" width="150" height="44" rx="8"/>
+  <text class="label" x="115" y="213">/interview</text>
+  <rect class="box" x="250" y="186" width="150" height="44" rx="8"/>
+  <text class="label" x="325" y="213">/scout</text>
+  <rect class="box" x="460" y="186" width="150" height="44" rx="8"/>
+  <text class="label" x="535" y="213">/prototype</text>
+  <rect class="box" x="250" y="336" width="150" height="44" rx="8"/>
+  <text class="label" x="325" y="363">/specalize</text>
+  <rect class="box" x="460" y="336" width="150" height="44" rx="8"/>
+  <text class="label" x="535" y="363">/ticketize</text>
+  <rect class="box" x="460" y="476" width="150" height="44" rx="8"/>
+  <text class="label" x="535" y="503">/implement</text>
+  <rect class="box" x="670" y="476" width="150" height="44" rx="8"/>
+  <text class="label" x="745" y="503">/audit</text>
+</svg>
