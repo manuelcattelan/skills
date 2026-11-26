@@ -7,7 +7,7 @@ disable-model-invocation: true
 Break a **spec** into **tickets**: sub-issues of the spec that fresh agent sessions implement, without ever seeing this conversation, as soon as the tickets **blocking** them are done.
 
 1. Read the spec: the issue passed as an argument, otherwise the spec published earlier in this session; when there is neither, ask for it. Read its full body and comments.
-2. Explore the repository to understand the current state of the codebase if you haven't already, and use the project's domain vocabulary from its `GLOSSARY.md` files throughout the tickets.
+2. Explore the repository to understand the current state of the codebase if you haven't already, and use the project's domain vocabulary from its `GLOSSARY.md` files throughout the tickets, and respect the ADRs in `docs/adr/` about the areas they touch.
 3. Draft the tickets following the rules below, then review them with the user until they approve the split.
 4. Publish the approved tickets to the project's issue tracker.
 
@@ -22,7 +22,7 @@ A ticket's **blockers** are the tickets that must be done before it can start. L
 Three kinds of tickets are not tracer bullets:
 - **Prefactoring**: when existing code would make a slice hard to build, restructure it first, without changing behavior, in its own ticket that blocks the slices relying on it.
 - **Wide refactors**: when one mechanical change, like renaming a field everywhere, breaks too much code to land at once, split it into tickets that each keep everything working.
-- **Glossary**: when the spec has a `## Glossary` section, apply it to the `GLOSSARY.md` files in a ticket of its own that blocks every ticket naming a term the section adds, edits, renames, moves, or deprecates. Its acceptance criteria are the section's items, each one reading in its glossary exactly as the spec words it, each moved entry gone from the glossary it leaves, and each removed entry gone from its glossary.
+- **Glossary and decisions**: when the spec has a `## Glossary` or `## Architecture decisions` section, apply them in a ticket of its own that blocks every ticket naming a term the glossary section adds, edits, renames, moves, or deprecates. Its acceptance criteria are the sections' items: each glossary item reading in its glossary exactly as the spec words it, each moved entry gone from the glossary it leaves, each removed entry gone from its glossary, each added ADR in `docs/adr/` under the next free number, reading exactly as the spec words it with the spec link filled in, and each superseded or deprecated ADR carrying its `Status` line, its body otherwise unchanged.
 
 Every ticket must be implementable by an agent alone: it names the spec decisions it implements and decides nothing the spec doesn't. When a ticket would need a human, to make a decision or to answer one of the spec's open questions, hold it back and raise it at review. Never answer a question you raise with a default of your own, even one the user could override.
 

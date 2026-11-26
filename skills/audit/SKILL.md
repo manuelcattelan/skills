@@ -38,9 +38,11 @@ When the spec has a `## Glossary` section, the change is also faithful to it whe
 
 Report only what the change adds or modifies: uses of a term elsewhere in the codebase are out of the audit's scope.
 
+When the spec has a `## Architecture decisions` section, the change is also faithful to it when every ADR the section adds is in `docs/adr/`, reading exactly as its item says, numbered and with its spec link filled in, and every ADR it supersedes or deprecates carries the `Status` line its item gives, its body otherwise unchanged.
+
 ### Conventions
 
-Find out how this project expects its code to be written, from wherever it documents it, and report every place where the change departs from that, quoting the rule it breaks. The documentation is always the authority: code drifts away from it, so a change that contradicts a documented rule is a finding even when existing code does the same.
+Find out how this project expects its code to be written, from wherever it documents it, and report every place where the change departs from that, quoting the rule it breaks. The documentation is always the authority: code drifts away from it, so a change that contradicts a documented rule is a finding even when existing code does the same. The ADRs in `docs/adr/` without a `Status` line are part of that documentation: a change that contradicts one its spec doesn't supersede or deprecate is a finding, quoting the ADR.
 
 Where the documentation is silent, the existing code sets the convention by being consistent. Report a change that departs from such a pattern, citing the existing code that establishes it.
 

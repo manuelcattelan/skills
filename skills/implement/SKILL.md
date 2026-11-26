@@ -24,12 +24,12 @@ Communicate with subagents through **context pointers**: links to the spec and t
 ## Implementers
 
 1. Before anything else, reset your branch onto the integration branch if your worktree isn't based on it already.
-2. Read the ticket, the spec, and the exploration notes when there are any. Read the project's `GLOSSARY.md` files and use only their terms throughout the implementation of the ticket.
+2. Read the ticket, the spec, and the exploration notes when there are any. Read the project's `GLOSSARY.md` files and use only their terms throughout the implementation of the ticket. Read the ADRs in `docs/adr/` about the areas the ticket touches.
 3. When the ticket adds or changes behavior, build it test-first, following [Test-driven development](#test-driven-development). Build any other ticket, such as configuration, wiring, prefactoring, or a wide refactor, directly: its acceptance criteria and the existing tests are its check.
 4. Never refactor code beyond what the ticket needs: refactoring belongs to the audit that follows the last ticket. While you work, run only the test files you touch, and run typechecking each time they pass.
-5. When the ticket is done, commit it as one commit titled after the ticket and referencing its issue. Rebase onto the tip of the integration branch, resolving any conflicts, then run the full test suite and typechecking.
+5. When the ticket is done, commit it as one commit titled after the ticket and referencing its issue. Rebase onto the tip of the integration branch, resolving any conflicts and renumbering an ADR you added when its number is already taken, then run the full test suite and typechecking.
 
-When the ticket is ambiguous, needs a decision the spec doesn't make, such as the shape of an interface, or has a test you can't make pass, stop and report the question instead of answering it with a default of your own.
+When the ticket is ambiguous, needs a decision the spec doesn't make, such as the shape of an interface, would contradict an ADR in force that the spec doesn't supersede, or has a test you can't make pass, stop and report the question instead of answering it with a default of your own.
 
 ### Test-driven development
 

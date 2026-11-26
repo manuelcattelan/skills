@@ -1,6 +1,6 @@
 ---
 name: upkeep
-description: "Reviews the whole codebase, or one directory, for any sign of decay in the codebase: duplicated, tangled, or dead code, drift from the project's conventions, test anti-patterns, documentation the code no longer matches, and code or documentation that doesn't follow the glossary, deprecated entries included. Ranks the findings, settles the ones the user picks with them either with interview or scout, then hands the fixes to specalize."
+description: "Reviews the whole codebase, or one directory, for any sign of decay in the codebase: duplicated, tangled, or dead code, drift from the project's conventions, test anti-patterns, documentation the code no longer matches, code or documentation that doesn't follow the glossary, deprecated entries included, and code or documentation that contradicts an ADR. Ranks the findings, settles the ones the user picks with them either with interview or scout, then hands the fixes to specalize."
 disable-model-invocation: true
 ---
 
@@ -8,7 +8,7 @@ Review the codebase for **decay**: the problems that pile up when agents add cod
 
 The perimeter to review is either the whole codebase, or only the directory passed as an argument. With a directory, report only problems that lie in it, including documentation and glossary entries about its code: read the rest of the repository only as evidence, such as the other copy of a duplication.
 
-Find and decide, never fix: change no code, documentation, or glossary, so that every fix lands through a spec, reviewed and audited like any other change. Take the `GLOSSARY.md` files as the authority on the project's vocabulary: whether they are right is `/define review`'s job, which a full review runs first.
+Find and decide, never fix: change no code, documentation, or glossary, so that every fix lands through a spec, reviewed and audited like any other change. Take the `GLOSSARY.md` files as the authority on the project's vocabulary, and the ADRs in force as the authority on its deliberate decisions: whether they are right is `/define review`'s job, which a full review runs first.
 
 1. Review the perimeter.
 2. Map the project following [Map](#map).
@@ -22,7 +22,7 @@ The checks must work in any project, whatever its architecture, so each one desc
 
 Before the checks, run one **exploration** subagent, in the foreground, that saves the map as a markdown note in the system's temporary directory, never inside the repository, recording anything that would give checks a more concrete definition that fits with the underlying project.
 
-This includes the project's areas and dependency rules between them, documented conventions, `README.md`, `CLAUDE.md`, and `AGENTS.md` files, `GLOSSARY.md` files, the testing architecture.
+This includes the project's areas and dependency rules between them, documented conventions, `README.md`, `CLAUDE.md`, and `AGENTS.md` files, `GLOSSARY.md` files, the ADRs in `docs/adr/`, the testing architecture.
 
 ## Checks
 
@@ -74,6 +74,10 @@ Check the code and the documentation the previous section covers against the `GL
 - **Unused deprecated entries**: an entry under `## Deprecated` whose term nothing in the code or the documentation uses anymore. The fix is removing the entry and, when its `Deprecated` line names a replacement, adding the term to that entry's `Avoid` line unless it is already there.
 - **Stale deprecated entries**: an entry under `## Deprecated` whose `Deprecated` line names a replacement that has since been renamed, moved, or deprecated, or whose links point to entries that no longer exist. The fix is pointing it at the current entry, following the chain of replacements, and unlinking what has no entry.
 
+### Decisions
+
+Check the code and documentation against the ADRs in `docs/adr/` without a `Status` line, which are the authority, and report every place that contradicts one, quoting the ADR.
+
 ## Report
 
 Before reporting, check that each finding's evidence holds, and drop the ones whose evidence doesn't. Then read the closed issues labelled `upkeep:dismissed` and drop every finding one of them dismissed, unless the evidence shows that its reason no longer holds: then keep it, citing the dismissal.
@@ -116,4 +120,4 @@ Settle the picked findings in one of two ways, both ending in a spec that `/spec
 
 Run the session with the `skills:interview` skill, putting each picked finding to the user as one question whose recommendation states the fix. When the fix is text, such as a glossary entry, a `README.md` passage, or a comment, show it in a fenced markdown block exactly as it would read.
 
-The evidence stays in the conversation: the fix never cites it. When the user sides with the code over a glossary entry, the decision is the entry's change instead. Every fix, glossary changes included, lands through the spec. Once the user confirms the shared understanding, write nothing but the dismissals.
+The evidence stays in the conversation: the fix never cites it. When the user sides with the code over a glossary entry, the decision is the entry's change instead, and over an ADR, its supersession or deprecation. Every fix, glossary changes included, lands through the spec. Once the user confirms the shared understanding, write nothing but the dismissals.

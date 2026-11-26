@@ -1,18 +1,20 @@
 ---
 name: define
-description: "Aligns with the user on the project's ubiquitous language, one term and one precise definition per concept, shared by the user, domain experts, code, and agents, then records it in GLOSSARY.md files that agents follow. Use when the user wants to build or update the glossary or the ubiquitous language, to review it for stale entries, or to define, rename, or tell apart project concepts. Also use proactively, in any discussion of a feature or design, as soon as the user names a project concept with a vague or overloaded word, such as 'account' in a project that has both customers and logins: point out the ambiguity, propose the precise term, and offer to add it to the glossary."
+description: "Aligns with the user on the project's ubiquitous language, one term and one precise definition per concept, shared by the user, domain experts, code, and agents, then records it in GLOSSARY.md files that agents follow, and records the project's architecture decisions as ADRs in docs/adr/. Use when the user wants to build or update the glossary or the ubiquitous language, to review it or the ADRs for stale entries, to define, rename, or tell apart project concepts, or to record, supersede, or deprecate an architecture decision. Also use proactively, in any discussion of a feature or design, as soon as the user names a project concept with a vague or overloaded word, such as 'account' in a project that has both customers and logins: point out the ambiguity, propose the precise term, and offer to add it to the glossary."
 ---
 
 The glossaries record the project's [ubiquitous language](https://martinfowler.com/bliki/UbiquitousLanguage.html), the term Eric Evans uses in *Domain-Driven Design*: one language, settled with the people who know the domain, that conversations, specs, code, and documentation all use without translating. The glossary is its written record, and it drifts unless kept true to how the project actually speaks, which is what [Review](#review) is for.
 
-Run the session with the `skills:interview` skill, putting each concept to the user as one question whose recommendation shows, in a fenced markdown block, the exact entry you would write into the glossary, `Avoid` and `Distinct from` lines included. Throughout the session, hold the user's language to the glossary:
+The project's **ADRs**, architecture decision records, are the second record this skill keeps: each one captures a decision that agents would otherwise undo, with its reasoning, so that a future reader who finds the code surprising learns that it was deliberate. See [ADRs](#adrs).
+
+Run the session with the `skills:interview` skill, putting each concept to the user as one question whose recommendation shows, in a fenced markdown block, the exact entry you would write into the glossary, `Avoid` and `Distinct from` lines included, and each decision as one question whose recommendation shows the ADR exactly as it would read. Throughout the session, hold the user's language to the glossary:
 
 - When they use a word from an entry's `Avoid` line, or use a term in a way its definition contradicts, point it out and ask which they mean.
 - When they use a vague or overloaded word, propose the precise term.
 - When the line between two concepts is unclear, invent a concrete case that sits on it and ask which concept it belongs to.
 - When you propose a term, show the user a sentence that uses it to describe a concrete scenario, and when the sentence reads awkwardly, propose another term.
 
-When the user asks to review the glossary, with `review` as the argument or in their own words, run the session following [Review](#review).
+When the user asks to review the glossary or the ADRs, with `review` as the argument or in their own words, run the session following [Review](#review).
 
 ## Entries
 
@@ -75,15 +77,56 @@ A person who holds a ticket without having bought it.
 
 The `; replaced by …` part is left out when nothing replaces the concept. Once nothing in the code or documentation uses a deprecated term anymore, a spec can remove its entry; when the entry names a replacement, the term then goes on the replacement's `Avoid` line, so that agents keep avoiding it. Only a spec retires a concept or removes its entry: never move an entry to `## Deprecated`, or remove one from it, in a session of your own.
 
-## Glossary diffs
+## ADRs
 
-When `specalize` hands you a **glossary diff**, the glossary changes a spec's decisions require, put to the user only its items and the entries whose definition, lines, or links name a term it renames, moves, deprecates, or removes. Once the user confirms the shared understanding, write nothing, not even the block in [Writing](#writing): return every agreed change to `specalize` as an item of its spec's `## Glossary` section, since the implementation writes them alongside the code they describe.
+Record a decision as an ADR only when all three are true:
+
+1. **Hard to reverse**: changing your mind later has a meaningful cost. Think of the one-way and two-way door analogy: an ADR is useful when dealing with one-way design decisions. 
+2. **Surprising without context**: a future reader looking at the code would wonder why some implementation was done this way. Without an ADR, there would be no way to retrieve such information from history.
+3. **The result of a real trade-off**: there were genuine and valid alternatives to the problem and one was picked for specific reasons. The ADR helps list both the alternatives and the reasons that led to a specific choice.
+
+When any of the three is missing, record nothing: a spec already carries every decision with its reasoning, and an ADR is only for the rare one that must outlive it. Decisions that qualify include the shape of the architecture, how areas of the project integrate, technology choices that carry lock-in, boundaries and scope, explicit no's included, deliberate departures from the obvious path, constraints the code doesn't show, and alternatives rejected for reasons that aren't obvious.
+
+ADRs live in `docs/adr/` at the repository root, created with the first one, one file per decision named `NNNN-<slug>.md` after the next free number. Add `Considered options` and `Consequences` only when they carry something a reader wouldn't infer:
+
+```md
+# Orders are event-sourced
+
+## Context
+<what was being discussed, and the forces at play>
+
+## Decision
+<what was decided, and why>
+
+## Considered options
+- <option>: <why it was rejected>
+
+## Consequences
+<downstream effects a reader wouldn't infer>
+
+Decided in [#42 <spec title>](<spec link>).
+```
+
+The last line links the spec that made the decision, or, for an ADR recorded outside a spec, the pull request or issue that did, and is left out when there is none.
+
+An ADR's body never changes once it lands. When a later decision replaces it, a new ADR records that decision, and the old one gets a `Status` line under its title linking the replacement; when the decision no longer applies and nothing replaces it, the line marks it deprecated. Each links what retired it:
+
+```md
+**Status**: superseded by [ADR-0012](0012-<slug>.md) in [#57 <spec title>](<spec link>)
+**Status**: deprecated in [#61 <spec title>](<spec link>)
+```
+
+An ADR without a `Status` line is in force. Unlike a glossary entry, an ADR can be superseded or deprecated in a session of your own, such as after a fix made outside a spec reversed a decision: link the pull request or issue that made the change.
+
+## Spec diffs
+
+When `specalize` hands you a **glossary diff**, the glossary changes a spec's decisions require, put to the user only its items and the entries whose definition, lines, or links name a term it renames, moves, deprecates, or removes. When it hands you an **ADR diff**, the ADRs a spec's decisions add, supersede, or deprecate, put each item to the user with the ADR or its `Status` line exactly as it will read, the spec link left as `<spec link>` and a new ADR's number left out. Once the user confirms the shared understanding, write nothing, not even the blocks in [Writing](#writing): return every agreed change to `specalize` as an item of its spec's `## Glossary` or `## Architecture decisions` section, since the implementation writes them alongside the code they describe.
 
 Items the user already agreed to earlier in the session, such as in a [review](#review) or an `/upkeep` session, are settled: return them without asking again, unless you find one plainly wrong, which you raise as a question of its own.
 
 ## Review
 
-A **review** checks the glossaries against the code to catch entries gone stale: the main workflow only changes the concepts each effort names, so the rest drift unnoticed. It decides only whether the glossaries are right, and reads code and documentation only as evidence.
+A **review** checks the glossaries and the ADRs against the code to catch entries gone stale: the main workflow only changes the concepts each effort names, so the rest drift unnoticed. It decides only whether the glossaries and the ADRs are right, and reads code and documentation only as evidence.
 
 Whether code and documentation follow the glossaries is one of `/upkeep`'s checks, so leave to it every remaining use of a deprecated term or of a word from an `Avoid` line, and every mismatch where the glossary turns out to be right. A full review of the project needs both, this one first, since `/upkeep` takes the glossaries as its authority.
 
@@ -101,18 +144,28 @@ Check each glossary in its own general-purpose subagent, all started in the same
 
 Subagents don't see this conversation, so give each one a self-contained brief with its glossary, the code it covers, the [Entries](#entries) and [Glossaries](#glossaries) sections, and the checks above. Tell it to look for each concept by what its definition describes, not only by its term and `Avoid` words, and to report every **finding** with the entry or section it concerns, its check, and the evidence it rests on: `file:line` references, with the code or documentation quoted verbatim.
 
-Before raising a finding, check that its evidence holds, and drop the ones whose evidence doesn't. Then put each finding to the user as one question, whose recommendation shows the change in a fenced markdown block: the entry as it would read, under `## Deprecated` for a deprecation. The evidence stays in the conversation: an entry never cites it.
+Unless the argument names a single glossary, also check the ADRs in force in one more subagent, started in the same turn, against the whole repository, with a brief giving the [ADRs](#adrs) section, these checks, and the same way to report findings:
+- **Contradicted ADRs**: an ADR whose decision the code or documentation contradicts. Ask the user which side is right, and when it is the ADR, drop the finding: fixing the code is left to `/upkeep`. Otherwise recommend superseding it, or deprecating it when nothing replaces the decision.
+- **Broken `Status` lines**: a `Status` line linking an ADR that doesn't exist.
 
-Once the user confirms the shared understanding, write nothing to the glossaries, not even the changes they agreed to: those land through a spec like any other, so every glossary change is reviewed and audited the same way. Write only the block in [Writing](#writing), without telling the user about uses of `Avoid` words, which `/upkeep` covers.
+Before raising a finding, check that its evidence holds, and drop the ones whose evidence doesn't. Then put each finding to the user as one question, whose recommendation shows the change in a fenced markdown block: the entry as it would read, under `## Deprecated` for a deprecation, or the ADR or `Status` line as it would read. The evidence stays in the conversation: an entry never cites it.
 
-When the user agreed to any change, finish by telling them to run `/specalize` in this same session, which records the changes in a spec's `## Glossary` section.
+Once the user confirms the shared understanding, write nothing to the glossaries, not even the changes they agreed to: those land through a spec like any other, so every glossary change is reviewed and audited the same way. Write only the ADR changes they agreed to, since the code already follows them, and the blocks in [Writing](#writing), without telling the user about uses of `Avoid` words, which `/upkeep` covers.
+
+When the user agreed to any glossary change, finish by telling them to run `/specalize` in this same session, which records the changes in a spec's `## Glossary` section.
 
 ## Writing
 
-Once the user confirms the shared understanding, write every glossary the session changed. Then add the block below to the `CLAUDE.md` and the `AGENTS.md` at the repository root, for each of the two that exists, replacing any existing `## Glossary` section; when neither exists, ask the user which one to create. Change nothing else, and don't report uses of `Avoid` words in code or documentation: `/upkeep` covers them.
+Once the user confirms the shared understanding, write every glossary and ADR the session changed. Then add the blocks below to the `CLAUDE.md` and the `AGENTS.md` at the repository root, for each of the two that exists, replacing any existing `## Glossary` and `## Architecture decisions` sections, the second only once `docs/adr/` exists; when neither exists, ask the user which one to create. Change nothing else, and don't report uses of `Avoid` words in code or documentation: `/upkeep` covers them.
 
 ```md
 ## Glossary
 
 `GLOSSARY.md` defines this project's ubiquitous language, the one vocabulary that conversations, specs, code, and documentation all share, and the glossaries listed in its `Glossary tree` section add the terms for their directories. Before you answer a question, explain something, or write code or documentation that involves a project concept, read them, and then use only their terms, even when the user or the code uses another word: when a word is on an entry's `Avoid` line, write that entry's term instead. Never use a term from a `## Deprecated` group in new code or documentation. When its `Deprecated` line names a replacement, use that term instead; when it names none, the concept no longer exists: leave the term out, and leave any remaining use of it to `/upkeep` instead of raising it with the user. When a concept you need has no entry, say so instead of coining a term.
+```
+
+```md
+## Architecture decisions
+
+`docs/adr/` records the decisions this project made deliberately, each with its reasoning. Before you propose a design or change code, read the titles there and every ADR about the area you are touching. An ADR without a `Status` line is in force: never contradict it silently. When your work needs to, say which ADR it contradicts and why it is worth reopening, and leave the decision to the user.
 ```

@@ -15,7 +15,7 @@ You are the **orchestrator**: you never write the prototype yourself. A single *
 
    Before building anything, state the question in one sentence, its kind, and the plan: for logic, the actions and the walkthrough scenarios; for UI, how many variants and how each differs. When the skill runs on a question from an interview or a scout trail, take the question from there, then wait for the user to confirm: a prototype of the wrong question wastes the whole build.
 
-2. **Build**: create a new temporary directory outside the repository, then start the builder: a general-purpose subagent, in the foreground. It doesn't see this conversation, so give it a self-contained brief about the question, the directory to build in, what it needs from this conversation and the codebase, with pointers to the relevant code and the project's `GLOSSARY.md` files, and the [Builder](#builder) section.
+2. **Build**: create a new temporary directory outside the repository, then start the builder: a general-purpose subagent, in the foreground. It doesn't see this conversation, so give it a self-contained brief about the question, the directory to build in, what it needs from this conversation and the codebase, with pointers to the relevant code, the project's `GLOSSARY.md` files, and the ADRs in `docs/adr/` about the area, and the [Builder](#builder) section.
 
    When it returns, open the prototype for the user when you can, give its path, and guide them on how to run and review the prototype: the walkthroughs of a logic prototype, the variants of a UI, etc.
 
