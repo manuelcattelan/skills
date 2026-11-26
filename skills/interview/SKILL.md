@@ -27,6 +27,7 @@ Format every round exactly like this:
 - Count the rounds left after this one as the longest chain of decisions you can already see waiting on open ones. Answers keep growing the tree, so the count is only ever an estimate.
 - Phrase every question so that a plain agreement, such as "yes", "ok" or "agreed", accepts your recommendation; when it lists options, recommend one by name (e.g. "Go with B").
 - Commit every recommendation to one answer. When it hinges on something only the user knows, assume the likeliest case and say so, so the user can correct you.
+- When a decision turns on how something looks or behaves and talking can't settle it, such as a screen the user can't picture or a state model with more edge cases than either of you can hold in your head, recommend settling it with a prototype. When the user agrees, call the Skill tool with `skills:prototype` and the question, then take the verdict it returns as the answer, citing its record.
 - Whenever you mention another question by number, anywhere in the session, make the reference stand on its own, in one of these forms:
 
   ```

@@ -40,8 +40,9 @@ Follow this template precisely when writing a map:
 
 A trail is a sub-issue of the map, labelled with its type and blocked by the trails whose answers it needs. Its body states the domain or angle it settles, the decisions it is expected to cover, and the context needed to start without reading anything else.
 
-There are two types of trails:
+There are three types of trails:
 - **Interview trail** (`scout:interview` label): resolved with the user, in a session that runs `skills:interview` on the trail.
+- **Prototype trail** (`scout:prototype` label): a question about how something looks or behaves that talking can't settle, resolved with the user, in a session that runs `skills:prototype` on the trail.
 - **Research trail** (`scout:research` label): facts a decision waits on, resolved without the user. See [Research](#research).
 
 Wherever possible, keep everything about one domain or angle in one trail, sized so that its interview fits in one session without its context window entering the "dumb zone". Split off a part of the trail only when you foresee it can't be settled in the same session as the rest. A trail with a single decision in it belongs in another related trail whenever possible.
@@ -59,9 +60,9 @@ A trail is **claimed** when it's assigned, which happens before any work on it s
 ## Follow a trail
 
 1. Read the map's body and its open trails, then start every research trail on the frontier. For each research trail that is claimed but still open, ask the user whether to restart it: only they know whether the session running it is still alive.
-2. Use the trail given as an argument, otherwise present the frontier's interview trails, recommend one, and wait for the user to pick. Finally, claim the trail.
-3. Read the trail and the resolutions of the trails blocking it. Read any other trail only when a question touches it. After that, run `skills:interview` on the trail. When the interview outgrows the session, settle what you can, and split the rest off as in step 5.
-4. Post the resolution, close the trail, and add each of its decisions to the map's `Decisions so far`, linked to the trail:
+2. Use the trail given as an argument, otherwise present the frontier's interview and prototype trails, recommend one, and wait for the user to pick. Finally, claim the trail.
+3. Read the trail and the resolutions of the trails blocking it. Read any other trail only when a question touches it. After that, run `skills:interview` on an interview trail, or `skills:prototype` on a prototype trail. When the interview outgrows the session, settle what you can, and split the rest off as in step 5.
+4. Post the resolution, close the trail, and add each of its decisions to the map's `Decisions so far`, linked to the trail. A prototype trail's resolution is the record `skills:prototype` hands back, with its verdict among the decisions:
 
    ```md
    ## Decisions

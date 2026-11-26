@@ -9,7 +9,7 @@ Turn what this session, or the map passed as an argument, decided, into a **spec
 1. When given a map, read it following [Maps](#maps).
 2. Explore the repository to understand the current state of the codebase if you haven't already and use the project's domain vocabulary from its `GLOSSARY.md` files throughout the spec.
 3. Before drafting anything, settle the spec's glossary diff following [Glossary](#glossary), and write the rest of the spec in the terms it agrees on.
-4. Give each decision its reasoning: the reason the user gave, or the reasoning of the recommendation they accepted. Record the implementation decisions the thread made too, but leave out file paths, code snippets, and other references to the codebase unless the decision itself is about one.
+4. Give each decision its reasoning: the reason the user gave, or the reasoning of the recommendation they accepted. Record the implementation decisions the thread made too, but leave out file paths, code snippets, and other references to the codebase unless the decision itself is about one. When a prototype settled a decision, link its record from the decision.
 5. Record the **seams** the work will be tested at: the places where you can alter behavior without editing in that place, where a module's interface lives and tests observe its behavior without reaching inside. Prefer existing seams to new ones and the highest seam possible, and keep them as few as possible.
 6. Write the spec following the template below, leaving out any section with nothing to put in it, then publish it to the project's issue tracker labelled `spec`, creating the label when it is missing.
 
@@ -76,7 +76,7 @@ When the diff is empty, leave the `## Glossary` section out of the spec. Otherwi
 
 A map is an issue labelled `scout:map`, whose sub-issues are its **trails**, all produced by the `scout` skill. Its decisions were made across many sessions, so take them from the tracker instead of this conversation:
 
-- `scout:interview` sub-issues hold decisions from interview trails, each from its latest resolution comment, which supersedes any earlier one.
+- `scout:interview` and `scout:prototype` sub-issues hold decisions from interview and prototype trails, each from its latest resolution comment, which supersedes any earlier one.
 - `scout:research` sub-issues hold facts from research trails: cite them in the reasoning of the decisions that rest on them, and never record one as a decision of its own.
 - When the map still has open trails, or anything under `Not yet specified`, stop and publish nothing: list them, and tell the user to resolve them or rule them out of scope with `/scout <map>`.
 - Once the spec is published, link the map at the end of it, then close the map with a comment linking the spec.
